@@ -25,7 +25,7 @@ warnings.filterwarnings('ignore')
 # Page configuration
 st.set_page_config(
     page_title="Customer Churn Prediction",
-    page_icon="📱",
+    page_icon="🔄",
     layout="wide"
 )
 
@@ -39,15 +39,7 @@ if 'models' not in st.session_state:
 if 'model_metrics' not in st.session_state:
     st.session_state.model_metrics = {}
 
-def load_default_dataset():
-    """Load the default Telco Customer Churn dataset"""
-    try:
-        # You can replace this path with your dataset path
-        dataset = pd.read_csv("WA_Fn-UseC_-Telco-Customer-Churn.csv")
-        return dataset
-    except FileNotFoundError:
-        st.error("Default dataset not found. Please upload a dataset.")
-        return None
+
 
 def preprocess_data(df):
     """Comprehensive data preprocessing function"""
@@ -134,23 +126,23 @@ def train_models(X_train, X_test, y_train, y_test):
     return models, metrics
 
 # Page 1: Data Import and Overview
+img = Image.open("mlg2.jpeg")
+
 def page_data_overview():
-    st.title("📊 Data Import and Overview") #streamlit title
-    st.markdown("---")
-    
-    # Data loading section
-    st.subheader("🔄 Data Loading")
-    
-    col1, col2 = st.columns(2)
+    # Create two columns with custom width ratio
+    col1, col2 = st.columns([1, 3])  # First column is 1/4 width, second is 3/4
     
     with col1:
-        if st.button("Load Default Dataset"):
-            dataset = load_default_dataset()
-            if dataset is not None:
-                st.session_state.dataset = dataset
-                st.success("Default dataset loaded successfully!")
-    
+        st.image(img, width=100)  # Adjust width as needed
+        
     with col2:
+        st.title("Data Import and Overview")
+        st.markdown("---")
+    
+    
+    col1, col2 = st.columns(2)
+        
+    with col1:
         uploaded_file = st.file_uploader("Upload your own dataset", type=['csv'])
         if uploaded_file is not None:
             dataset = pd.read_csv(uploaded_file)
@@ -238,8 +230,17 @@ def page_data_overview():
 
 # Page 2: Data Preprocessing
 def page_preprocessing():
-    st.title("🔧 Data Preprocessing")
-    st.markdown("---")
+    col1, col2 = st.columns([1, 3])
+    
+    with col1:
+        # Add some vertical padding around the image
+        st.write("")  # Empty space above
+        st.image(img, width=100)
+        st.write("")  # Empty space below
+        
+    with col2:
+        st.title("Data Preprocessing")
+        st.markdown("---")
     
     if st.session_state.dataset is None:
         st.warning("Please load a dataset first from the Data Overview page.")
@@ -783,6 +784,13 @@ def page_interpretation():
             ax2.set_title('Overall Churn Distribution')
             
             st.pyplot(fig)
+    st.markdown("---")      
+    st.write("Bernice Baadawo Abbe- 22253447")
+    st.write("Frederica Atsupi Nkegbe -22253148")
+    st.write("Instil Paakwesi Appau -22252453")
+    st.write("Erwin K. Opare-Essel -22254064")
+    st.write("Anita Dickson -22253364")
+    st.markdown("---")
 
 # Main navigation
 def main():
